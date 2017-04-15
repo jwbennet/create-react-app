@@ -116,6 +116,9 @@ class App extends Component {
         import('./features/webpack/LinkedModules').then(f =>
           this.setFeature(f.default));
         break;
+      case 'linked-modules':
+        require.ensure([], () => this.setFeature(require('./features/webpack/LinkedModules').default));
+        break;
       case 'node-path':
         import('./features/env/NodePath').then(f => this.setFeature(f.default));
         break;
