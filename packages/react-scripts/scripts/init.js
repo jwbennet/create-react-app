@@ -14,6 +14,8 @@ var path = require('path');
 var spawn = require('cross-spawn');
 var chalk = require('chalk');
 
+var paths = require('../config/paths');
+
 module.exports = function(appPath, appName, verbose, originalDirectory, template) {
   var ownPackageName = require(path.join(__dirname, '..', 'package.json')).name;
   var ownPath = path.join(appPath, 'node_modules', ownPackageName);
@@ -45,7 +47,12 @@ module.exports = function(appPath, appName, verbose, originalDirectory, template
   // Copy the files for the user
   var templatePath = template ? path.resolve(originalDirectory, template) : path.join(ownPath, 'template');
   if (fs.existsSync(templatePath)) {
-    fs.copySync(templatePath, appPath);
+    fs.copySync(path.join(templatePath, 'gitignore'), path.join(appPath, 'gitignore'));
+    fs.copySync(path.join(templatePath, 'README.md'), path.join(appPath, 'README.md'));
+    fs.copySync(path.join(templatePath, 'public'), paths.appPublic, { filter: file => file !== path.join(templatePath, 'public/index.html') });
+    fs.copySync(path.join(templatePath, 'public/index.html'), paths.appHtml);
+    fs.copySync(path.join(templatePath, 'src'), paths.appSrc);
+    fs.copySync(path.join(templatePath, 'test'), paths.appTest);
   } else {
     console.error('Could not locate supplied template: ' + chalk.green(templatePath));
     return;

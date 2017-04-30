@@ -12,17 +12,19 @@
 // Note: this file does not exist after ejecting.
 
 const fs = require('fs');
+const path = require('path');
 const paths = require('../config/paths');
 
 module.exports = (resolve, rootDir, isEjecting) => {
   // Use this instead of `paths.testsSetup` to avoid putting
   // an absolute filename into configuration after ejecting.
-  const setupTestsFile = fs.existsSync(paths.testsSetup) ? '<rootDir>/src/setupTests.js' : undefined;
+  const setupTestsFile = fs.existsSync(paths.testsSetup) ? '<rootDir>/src/test/js/setupTests.js' : undefined;
 
   // TODO: I don't know if it's safe or not to just use / as path separator
   // in Jest configs. We need help from somebody with Windows to determine this.
   const config = {
-    collectCoverageFrom: ['src/**/*.{js,jsx}'],
+    collectCoverageFrom: [ path.relative(rootDir, paths.appSrc) + '/**/*.{js,jsx}' ],
+    roots: [ paths.appSrc, paths.appTest ],
     setupFiles: [resolve('config/polyfills.js')],
     setupTestFrameworkScriptFile: setupTestsFile,
     testPathIgnorePatterns: [

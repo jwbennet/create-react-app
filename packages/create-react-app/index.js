@@ -504,9 +504,10 @@ function fixDependencies(packageName) {
 // https://github.com/facebookincubator/create-react-app/pull/368#issuecomment-243446094
 function isSafeToCreateProjectIn(root) {
   var validFiles = [
-    '.DS_Store', 'Thumbs.db', '.git', '.gitignore', '.idea', 'README.md', 'LICENSE', 'web.iml', '.hg', '.hgignore', '.hgcheck'
+    '.DS_Store', 'Thumbs.db', '.git', '.gitignore', '.idea', 'README.md', 'LICENSE', '.hg', '.hgignore', '.hgcheck', '.mvn', 'mvnw', 'mvnw.cmd', 'pom.xml', 'src',
   ];
   return fs.readdirSync(root)
+    .filter(file => !file.endsWith('.iml'))
     .every(function(file) {
       return validFiles.indexOf(file) >= 0;
     });
