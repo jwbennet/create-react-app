@@ -65,7 +65,7 @@ function printErrors(summary, errors) {
 // Create the production build and print the deployment instructions.
 function build(previousFileSizes) {
   console.log('Creating an optimized production build...');
-  webpack(config).run((err, stats) => {
+  const compilationCallback = (err, stats) => {
     if (err) {
       printErrors('Failed to compile.', [err]);
       process.exit(1);
@@ -157,7 +157,13 @@ function build(previousFileSizes) {
       console.log(`  ${chalk.cyan('serve')} -s build`);
       console.log();
     }
-  });
+  };
+  const compiler = webpack(config);
+  if(process.argv.includes('--watch')) {
+    webpack(config).watch({}, compilationCallback);
+  } else {
+    webpack(config).run(compilationCallback);
+  }
 }
 
 function copyPublicFolder() {
