@@ -2,13 +2,13 @@
   "name": "@jwbennet/spring-boot-react-scripts",
   "version": "0.9.5",
   "description": "Configuration and scripts for Create React App.",
-  "repository": "facebookincubator/create-react-app",
+  "repository": "jwbennet/create-react-app",
   "license": "BSD-3-Clause",
   "engines": {
     "node": ">=4"
   },
   "bugs": {
-    "url": "https://github.com/facebookincubator/create-react-app/issues"
+    "url": "https://github.com/jwbennet/create-react-app/issues"
   },
   "files": [
     "babelrc",

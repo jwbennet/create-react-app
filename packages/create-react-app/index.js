@@ -288,7 +288,7 @@ function run(root, appName, version, verbose, originalDirectory, template) {
 }
 
 function getInstallPackage(version) {
-  var packageToInstall = 'react-scripts';
+  var packageToInstall = '@jwbennet/spring-boot-react-scripts';
   var validSemver = semver.valid(version);
   if (validSemver) {
     packageToInstall += '@' + validSemver;
@@ -428,7 +428,7 @@ function checkAppName(appName) {
 
   // TODO: there should be a single place that holds the dependencies
   var dependencies = ['react', 'react-dom'];
-  var devDependencies = ['react-scripts'];
+  var devDependencies = ['@jwbennet/spring-boot-react-scripts'];
   var allDependencies = dependencies.concat(devDependencies).sort();
   if (allDependencies.indexOf(appName) >= 0) {
     console.error(
