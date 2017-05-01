@@ -15,6 +15,8 @@ var spawn = require('cross-spawn');
 var chalk = require('chalk');
 
 var paths = require('../config/paths');
+const addDependencies = require('../utils/addDependencies');
+const copyTemplates = require('../utils/copyTemplates');
 
 module.exports = function(appPath, appName, verbose, originalDirectory, template) {
   var ownPackageName = require(path.join(__dirname, '..', 'package.json')).name;
@@ -22,8 +24,14 @@ module.exports = function(appPath, appName, verbose, originalDirectory, template
   var appPackage = require(path.join(appPath, 'package.json'));
   var useYarn = fs.existsSync(path.join(appPath, 'yarn.lock'));
 
+  const activeModules = {
+    bootstrap: true,
+    fontawesome: true,
+    redux: true,
+  };
+
   // Copy over some of the devDependencies
-  appPackage.dependencies = appPackage.dependencies || {};
+  appPackage.dependencies = addDependencies(appPackage.dependencies, activeModules);
   appPackage.devDependencies = appPackage.devDependencies || {};
 
   // Setup the script rules
@@ -48,12 +56,7 @@ module.exports = function(appPath, appName, verbose, originalDirectory, template
   // Copy the files for the user
   var templatePath = template ? path.resolve(originalDirectory, template) : path.join(ownPath, 'template');
   if (fs.existsSync(templatePath)) {
-    fs.copySync(path.join(templatePath, 'gitignore'), path.join(appPath, 'gitignore'));
-    fs.copySync(path.join(templatePath, 'README.md'), path.join(appPath, 'README.md'));
-    fs.copySync(path.join(templatePath, 'public'), paths.appPublic, { filter: file => file !== path.join(templatePath, 'public/index.html') });
-    fs.copySync(path.join(templatePath, 'public/index.html'), paths.appHtml);
-    fs.copySync(path.join(templatePath, 'src'), paths.appSrc);
-    fs.copySync(path.join(templatePath, 'test'), paths.appTest);
+    copyTemplates(appName, appPath, templatePath, activeModules);
   } else {
     console.error('Could not locate supplied template: ' + chalk.green(templatePath));
     return;

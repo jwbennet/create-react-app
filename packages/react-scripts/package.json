@@ -1,6 +1,6 @@
 {
   "name": "@jwbennet/spring-boot-react-scripts",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "description": "Configuration and scripts for Create React App.",
   "repository": "jwbennet/create-react-app",
   "license": "BSD-3-Clause",
@@ -51,6 +51,7 @@
     "http-proxy-middleware": "0.17.3",
     "jest": "19.0.2",
     "json-loader": "0.5.4",
+    "nunjucks": "3.0.0",
     "object-assign": "4.1.1",
     "postcss-loader": "1.2.2",
     "promise": "7.1.1",
