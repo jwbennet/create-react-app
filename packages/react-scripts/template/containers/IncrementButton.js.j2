@@ -1,0 +1,32 @@
+import React from 'react';
+import { connect } from 'react-redux';
+{% if bootstrap -%}
+import { Button } from 'react-bootstrap';
+{%- endif %}
+{% if fontawesome -%}
+import Icon from 'react-fontawesome';
+{%- endif %}
+
+import { increment } from '../modules/demo';
+
+const PlusButton = ({ count, onClick }) => (
+  {% if bootstrap and fontawesome -%}
+  <Button bsStyle="success" onClick={onClick}><Icon name="plus" /> {count}</Button>
+  {%- elif bootstrap -%}
+  <Button bsStyle="success" onClick={onClick}>+ {count}</Button>
+  {%- elif fontawesome -%}
+  <button onClick={onClick}><Icon name="plus" /> {count}</button>
+  {%- else -%}
+  <button onClick={onClick}>+ {count}</button>
+  {%- endif %}
+);
+
+const mapStateToProps = ({ demo: { count }}) => ({
+  count
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onClick: () => dispatch(increment())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlusButton);
