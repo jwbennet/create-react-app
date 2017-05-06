@@ -1,0 +1,15 @@
+import { combineReducers } from 'redux';
+{% if router -%}
+import { routerReducer } from 'react-router-redux';
+{%- endif %}
+
+import demo from './demo';
+
+export default combineReducers({
+{% if router -%}
+    demo,
+    router: routerReducer
+{%- else -%}
+    demo
+{%- endif %}
+});
