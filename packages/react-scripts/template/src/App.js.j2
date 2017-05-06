@@ -1,0 +1,63 @@
+import React, { Component } from 'react';
+{% if router -%}
+import { HashRouter as Router, Link, Route } from 'react-router-dom';
+{%- endif %}
+
+import logo from './logo.svg';
+import './App.css';
+{% if redux -%}
+import IncrementButton from './containers/IncrementButton';
+{%- endif %}
+
+{% if router -%}
+const Home = () => (
+    <div>
+        <h3>Home</h3>
+        {% if redux -%}
+        <IncrementButton />
+        {%- endif %}
+    </div>
+);
+const Foo = () => (
+    <h3>Foo</h3>
+);
+const Bar = () => (
+    <h3>Bar</h3>
+);
+const Baz = () => (
+    <h3>Baz</h3>
+);
+{%- endif %}
+
+class App extends Component {
+  render() {
+    return (
+      {% if router -%}
+      <Router>
+      {%- endif %}
+      <div className="App">
+        <div className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h2>Welcome to React</h2>
+        </div>
+        <p className="App-intro">
+          To get started, edit <code>src/App.js</code> and save to reload.
+        </p>
+        {% if router -%}
+        <Link to="/" replace>Home</Link> | <Link to="/foo" replace>Foo</Link> | <Link to="/bar" replace>Bar</Link> | <Link to="/baz" replace>Baz</Link>
+        <Route exact path="/" component={Home} />
+        <Route path="/foo" component={Foo} />
+        <Route path="/bar" component={Bar} />
+        <Route path="/baz" component={Baz} />
+        {%- elif redux -%}
+        <IncrementButton />
+        {%- endif %}
+      </div>
+      {% if router -%}
+      </Router>
+      {%- endif %}
+    );
+  }
+}
+
+export default App;

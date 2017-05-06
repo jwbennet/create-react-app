@@ -28,6 +28,7 @@ module.exports = function(appPath, appName, verbose, originalDirectory, template
     bootstrap: true,
     fontawesome: true,
     redux: true,
+    router: true,
   };
 
   // Copy over some of the devDependencies
