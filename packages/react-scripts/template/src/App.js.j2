@@ -20,6 +20,9 @@ import './App.css';
 {% if redux -%}
 import IncrementButton from './containers/IncrementButton';
 {%- endif %}
+{% if form -%}
+import DemoForm from './forms/DemoForm';
+{%- endif %}
 {% if router and redux -%}
 import { history } from './';
 {%- endif %}
@@ -30,6 +33,10 @@ const Home = () => (
         <h3>Home</h3>
         {% if redux -%}
         <IncrementButton />
+        {% if form -%}
+        <br /><br /><br /><br />
+        <DemoForm onSubmit={values => { console.log(values); return false; }} />
+        {%- endif %}
         {%- endif %}
     </div>
 );
@@ -61,7 +68,7 @@ class App extends Component {
         <Navbar>
           <Navbar.Header>
             <Navbar.Brand>
-              <Link to="/" exact replace>Home</Link>
+              <Link to="/" replace>Home</Link>
             </Navbar.Brand>
           </Navbar.Header>
           <Nav>

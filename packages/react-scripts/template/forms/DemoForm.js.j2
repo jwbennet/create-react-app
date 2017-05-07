@@ -1,0 +1,52 @@
+import React from 'react';
+{% if bootstrap -%}
+import { Button, ControlLabel, Col, FormControl, FormGroup, Grid, Row } from 'react-bootstrap';
+{%- endif %}
+import { Field, reduxForm } from 'redux-form';
+
+{% if bootstrap -%}
+const Input = ({ input, label, meta, ...other }) => (
+    <FormGroup controlId={input.name}>
+        <ControlLabel>{label}</ControlLabel>
+        <FormControl {...input} {...other} />
+    </FormGroup>
+);
+
+const DemoForm = ({ handleSubmit }) => (
+  <form onSubmit={handleSubmit}>
+    <Grid>
+      <h4>Demo Form</h4>
+      <Row className="text-left">
+        <Col md={4} mdOffset={4}>
+          <Field name="message" type="text" label="Message" placeholder="Message text" component={Input} />
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12}>
+          <Button bsStyle="primary" type="submit">Submit</Button>
+        </Col>
+      </Row>
+    </Grid>
+  </form>
+);
+{%- else -%}
+const Input = ({ input, label, meta, ...other }) => (
+  <div>
+    <label htmlFor={input.name}>{label}</label>{' '}
+    <input {...input} {...other} />
+  </div>
+);
+
+const DemoForm = ({ handleSubmit }) => (
+  <form onSubmit={handleSubmit}>
+    <h4>Demo Form</h4>
+    <Field name="message" type="text" label="Message" placeholder="Message text" component={Input} />
+    <input type="submit" />
+  </form>
+);
+{%- endif %}
+
+
+export default reduxForm({
+    form: 'demo'
+})(DemoForm);
