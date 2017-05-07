@@ -14,6 +14,9 @@ import { HashRouter as Router, Link, Route } from 'react-router-dom';
 {%- elif router -%}
 import { HashRouter as Router, Link, Route } from 'react-router-dom';
 {%- endif %}
+{% if router -%}
+import DocumentTitle from 'react-document-title';
+{%- endif %}
 
 import logo from './logo.svg';
 import './App.css';
@@ -29,25 +32,35 @@ import { history } from './';
 
 {% if router -%}
 const Home = () => (
-    <div>
-        <h3>Home</h3>
-        {% if redux -%}
-        <IncrementButton />
-        {% if form -%}
-        <br /><br /><br /><br />
-        <DemoForm onSubmit={values => { console.log(values); return false; }} />
-        {%- endif %}
-        {%- endif %}
-    </div>
+  <div>
+    <DocumentTitle title="Home" />
+    <h3>Home</h3>
+    {% if redux -%}
+    <IncrementButton />
+    {% if form -%}
+    <br /><br /><br /><br />
+    <DemoForm onSubmit={values => { console.log(values); return false; }} />
+    {%- endif %}
+    {%- endif %}
+  </div>
 );
 const Foo = () => (
+  <div>
+    <DocumentTitle title="Foo" />
     <h3>Foo</h3>
+  </div>
 );
 const Bar = () => (
+  <div>
+    <DocumentTitle title="Bar" />
     <h3>Bar</h3>
+  </div>
 );
 const Baz = () => (
+  <div>
+    <DocumentTitle title="Baz" />
     <h3>Baz</h3>
+  </div>
 );
 {%- endif %}
 
