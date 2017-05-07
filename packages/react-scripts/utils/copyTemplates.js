@@ -41,6 +41,9 @@ module.exports = (appName, appPath, templatePath, activeModules) => {
       copyTemplateDirectory(path.join(templatePath, 'containers'), path.join(paths.appSrc, 'containers'), templateContext);
       copyTemplateDirectory(path.join(templatePath, 'modules'), path.join(paths.appSrc, 'modules'), templateContext);
     }
+    if(activeModules.form) {
+      copyTemplateDirectory(path.join(templatePath, 'forms'), path.join(paths.appSrc, 'forms'), templateContext);
+    }
   } else {
     console.error('Could not locate supplied template: ' + chalk.green(templatePath));
     return;

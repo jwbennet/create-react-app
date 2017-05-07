@@ -27,6 +27,7 @@ module.exports = function(appPath, appName, verbose, originalDirectory, template
   const activeModules = {
     bootstrap: true,
     fontawesome: true,
+    form: true,
     redux: true,
     router: true,
   };
