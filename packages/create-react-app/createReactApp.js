@@ -343,7 +343,7 @@ function run(
 }
 
 function getInstallPackage(version) {
-  let packageToInstall = 'react-scripts';
+  let packageToInstall = '@jwbennet/spring-boot-react-scripts';
   const validSemver = semver.valid(version);
   if (validSemver) {
     packageToInstall += `@${validSemver}`;
@@ -492,7 +492,7 @@ function checkAppName(appName) {
 
   // TODO: there should be a single place that holds the dependencies
   const dependencies = ['react', 'react-dom'];
-  const devDependencies = ['react-scripts'];
+  const devDependencies = ['@jwbennet/spring-boot-react-scripts'];
   const allDependencies = dependencies.concat(devDependencies).sort();
   if (allDependencies.indexOf(appName) >= 0) {
     console.error(
@@ -565,12 +565,19 @@ function isSafeToCreateProjectIn(root) {
     '.idea',
     'README.md',
     'LICENSE',
-    'web.iml',
     '.hg',
     '.hgignore',
     '.hgcheck',
+    '.mvn',
+    'mvnw',
+    'mvnw.cmd',
+    'pom.xml',
+    'src',
   ];
-  return fs.readdirSync(root).every(file => validFiles.indexOf(file) >= 0);
+  return fs
+    .readdirSync(root)
+    .filter(file => !file.endsWith('.iml'))
+    .every(file => validFiles.indexOf(file) >= 0);
 }
 
 function checkIfOnline(useYarn) {
