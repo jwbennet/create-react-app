@@ -1,0 +1,117 @@
+import React, { Component } from 'react';
+{% if router and redux and bootstrap -%}
+import { Nav, Navbar, NavItem } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
+import { Link, Route } from 'react-router-dom';
+import { ConnectedRouter as Router } from 'react-router-redux';
+{%- elif router and redux -%}
+import { Link, Route } from 'react-router-dom';
+import { ConnectedRouter as Router } from 'react-router-redux';
+{%- elif router and bootstrap -%}
+import { Nav, Navbar, NavItem } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
+import { HashRouter as Router, Link, Route } from 'react-router-dom';
+{%- elif router -%}
+import { HashRouter as Router, Link, Route } from 'react-router-dom';
+{%- endif %}
+{% if router -%}
+import DocumentTitle from 'react-document-title';
+{%- endif %}
+
+import logo from './logo.svg';
+import './App.css';
+{% if redux -%}
+import IncrementButton from './containers/IncrementButton';
+{%- endif %}
+{% if form -%}
+import DemoForm from './forms/DemoForm';
+{%- endif %}
+{% if router and redux -%}
+import { history } from './';
+{%- endif %}
+
+{% if router -%}
+const Home = () => (
+  <div>
+    <DocumentTitle title="Home" />
+    <h3>Home</h3>
+    {% if redux -%}
+    <IncrementButton />
+    {% if form -%}
+    <br /><br /><br /><br />
+    <DemoForm onSubmit={values => { console.log(values); return false; }} />
+    {%- endif %}
+    {%- endif %}
+  </div>
+);
+const Foo = () => (
+  <div>
+    <DocumentTitle title="Foo" />
+    <h3>Foo</h3>
+  </div>
+);
+const Bar = () => (
+  <div>
+    <DocumentTitle title="Bar" />
+    <h3>Bar</h3>
+  </div>
+);
+const Baz = () => (
+  <div>
+    <DocumentTitle title="Baz" />
+    <h3>Baz</h3>
+  </div>
+);
+{%- endif %}
+
+class App extends Component {
+  render() {
+    return (
+      {% if router and redux -%}
+      <Router history={history}>
+      {%- elif router -%}
+      <Router>
+      {%- endif %}
+      <div className="App">
+        <div className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h2>Welcome to React</h2>
+        </div>
+        {% if router and bootstrap -%}
+        <Navbar>
+          <Navbar.Header>
+            <Navbar.Brand>
+              <Link to="/" replace>Home</Link>
+            </Navbar.Brand>
+          </Navbar.Header>
+          <Nav>
+            <LinkContainer to="/foo" replace><NavItem eventKey={1}>Foo</NavItem></LinkContainer>
+            <LinkContainer to="/bar" replace><NavItem eventKey={1}>Bar</NavItem></LinkContainer>
+            <LinkContainer to="/baz" replace><NavItem eventKey={1}>Baz</NavItem></LinkContainer>
+          </Nav>
+        </Navbar>
+        {%- elif router -%}
+        <p>
+          <Link to="/" replace>Home</Link> | <Link to="/foo" replace>Foo</Link> | <Link to="/bar" replace>Bar</Link> | <Link to="/baz" replace>Baz</Link>
+        </p>
+        {%- endif %}
+        <p className="App-intro">
+          To get started, edit <code>src/App.js</code> and save to reload.
+        </p>
+        {% if router -%}
+        <Route exact path="/" component={Home} />
+        <Route path="/foo" component={Foo} />
+        <Route path="/bar" component={Bar} />
+        <Route path="/baz" component={Baz} />
+        {%- elif redux -%}
+        <IncrementButton />
+        {%- endif %}
+      </div>
+      {% if router -%}
+      </Router>
+      {%- endif %}
+    );
+  }
+}
+
+export default App;

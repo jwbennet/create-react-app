@@ -18,8 +18,11 @@ process.on('unhandledRejection', err => {
 
 const fs = require('fs-extra');
 const path = require('path');
-const spawn = require('cross-spawn');
 const chalk = require('chalk');
+const spawn = require('react-dev-utils/crossSpawn');
+
+const addDependencies = require('../utils/addDependencies');
+const copyTemplates = require('../utils/copyTemplates');
 
 module.exports = function(
   appPath,
@@ -37,8 +40,19 @@ module.exports = function(
   const appPackage = require(path.join(appPath, 'package.json'));
   const useYarn = fs.existsSync(path.join(appPath, 'yarn.lock'));
 
+  const activeModules = {
+    bootstrap: true,
+    fontawesome: true,
+    form: true,
+    redux: true,
+    router: true,
+  };
+
   // Copy over some of the devDependencies
-  appPackage.dependencies = appPackage.dependencies || {};
+  appPackage.dependencies = addDependencies(
+    appPackage.dependencies,
+    activeModules
+  );
   appPackage.devDependencies = appPackage.devDependencies || {};
 
   // Setup the script rules
@@ -47,6 +61,7 @@ module.exports = function(
     build: 'react-scripts build',
     test: 'react-scripts test --env=jsdom',
     eject: 'react-scripts eject',
+    watch: 'react-scripts build --watch',
   };
 
   fs.writeFileSync(
@@ -67,7 +82,7 @@ module.exports = function(
     ? path.resolve(originalDirectory, template)
     : path.join(ownPath, 'template');
   if (fs.existsSync(templatePath)) {
-    fs.copySync(templatePath, appPath);
+    copyTemplates(appName, appPath, templatePath, activeModules);
   } else {
     console.error(
       `Could not locate supplied template: ${chalk.green(templatePath)}`

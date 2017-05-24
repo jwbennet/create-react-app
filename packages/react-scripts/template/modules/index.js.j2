@@ -1,0 +1,19 @@
+import { combineReducers } from 'redux';
+{% if router -%}
+import { routerReducer } from 'react-router-redux';
+{%- endif %}
+{% if form -%}
+import { reducer as formReducer } from 'redux-form';
+{%- endif %}
+
+import demo from './demo';
+
+export default combineReducers({
+  demo
+  {%- if form %},
+  form: formReducer
+  {%- endif %}
+  {%- if router %},
+  router: routerReducer
+  {%- endif %}
+});
