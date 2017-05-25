@@ -32,7 +32,7 @@ try {
 const hookRules = (hooks && hooks.rules) || [];
 const hookExcludes = hookRules.reduce(
   function(acc, rule) {
-    return acc.concat(rule.test);
+    return rule.test ? acc.concat(rule.test) : [];
   },
   []
 );
