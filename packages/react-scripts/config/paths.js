@@ -50,6 +50,7 @@ function getServedPath(appPackageJson) {
 
 // config after eject: we're in ./config/
 module.exports = {
+  webpackHooks: resolveApp('webpackHooks.js'),
   dotenv: resolveApp('.env'),
   appBuild: resolveApp('target/classes/static'),
   appPublic: resolveApp('src/main/resources/static'),
@@ -70,6 +71,7 @@ const resolveOwn = relativePath => path.resolve(__dirname, '..', relativePath);
 
 // config before eject: we're in ./node_modules/react-scripts/config/
 module.exports = {
+  webpackHooks: resolveApp('webpackHooks.js'),
   dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
   appBuild: resolveApp('target/classes/static'),
