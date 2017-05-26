@@ -23,6 +23,24 @@ const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
 
+//// allow hooks into webpack config
+let hooks = {};
+
+try {
+  hooks = require(paths.webpackHooks);
+} catch (e) {
+  //// leave hooks as empty object
+  //// TODO: need to check if file exists and not swallow errors
+}
+const hookRules = (hooks && hooks.rules) || [];
+const hookExcludes = hookRules.reduce(
+  function(acc, rule) {
+    return rule.test ? acc.concat(rule.test) : [];
+  },
+  []
+);
+const hookPlugins = (hooks && hooks.plugins) || [];
+
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
 const publicPath = paths.servedPath;
@@ -165,7 +183,7 @@ module.exports = {
           /\.gif$/,
           /\.jpe?g$/,
           /\.png$/,
-        ],
+        ].concat(hookExcludes),
         loader: require.resolve('file-loader'),
         options: {
           name: 'media/[name].[hash:8].[ext]',
@@ -247,7 +265,7 @@ module.exports = {
       },
       // ** STOP ** Are you adding a new loader?
       // Remember to add the new extension(s) to the "file" loader exclusion list.
-    ],
+    ].concat(hookRules),
   },
   plugins: [
     // Makes some environment variables available in index.html.
@@ -337,7 +355,7 @@ module.exports = {
     // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
     // You can remove this if you don't use Moment.js:
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-  ],
+  ].concat(hookPlugins),
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
   node: {

@@ -36,7 +36,6 @@ const hookExcludes = hookRules.reduce(
   },
   []
 );
-
 const hookPlugins = (hooks && hooks.plugins) || [];
 
 // Webpack uses `publicPath` to determine where the app is being served from.
